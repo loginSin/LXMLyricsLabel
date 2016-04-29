@@ -62,6 +62,15 @@
     self.maskLabel.text = text;
 }
 
+//设置背景颜色
+- (void)setTextBackgroundColor:(UIColor *)color {
+    self.textLabel.backgroundColor = color;
+}
+//设置渲染颜色
+- (void)setTextMaskColor:(UIColor *)color {
+    self.maskLabel.textColor = color;
+}
+
 - (void)setTextAlignment:(NSTextAlignment)textAlignment {
     self.textLabel.textAlignment = textAlignment;
     self.maskLabel.textAlignment = textAlignment;
@@ -81,7 +90,7 @@
         CGFloat tempWidth = [locationArray[i] floatValue] * CGRectGetWidth(self.bounds);
         [widthArray addObject:@(tempWidth)];
     }
-   
+    
     animation.values = widthArray;
     animation.keyTimes = keyTimeArray;
     animation.duration = totalDuration;
@@ -89,6 +98,16 @@
     animation.fillMode = kCAFillModeForwards;
     animation.removedOnCompletion = NO;
     [self.maskLayer addAnimation:animation forKey:@"kLyrcisAnimation"];
+}
+
+- (void)startLyricsAnimationWithDuration:(NSTimeInterval)duration andWordsCount:(NSUInteger)count {
+    NSMutableArray *timeArray = [NSMutableArray array];
+    NSMutableArray *locationArray = [NSMutableArray array];
+    for(int i=0;i<count;i++){
+        [timeArray addObject:@(duration/count*i)];
+        [locationArray addObject:@(1.0/count*i)];
+    }
+    [self startLyricsAnimationWithTimeArray:timeArray andLocationArray:locationArray];
 }
 
 - (void)stopAnimation {

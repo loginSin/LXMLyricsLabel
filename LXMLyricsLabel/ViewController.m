@@ -29,6 +29,8 @@
     lyricsLabel.font = [UIFont systemFontOfSize:14];
     lyricsLabel.text = @"向前跑！迎着冷眼和嘲笑";//@"knocking on heaven's door";
     lyricsLabel.textAlignment = NSTextAlignmentCenter;
+    
+    [lyricsLabel setTextMaskColor:[UIColor redColor]];
     [self.view addSubview:lyricsLabel];
     self.lyricsLabel = lyricsLabel;
     
@@ -57,30 +59,24 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - buttonAction 
+#pragma mark - buttonAction
 
 - (void)handlePlayButtonTapped:(UIButton *)sender {
-    NSArray *timeArray = @[
-                           @(0),
-                           @(3),
-                           @(3.3),
-                           @(3.6),
-                           @(4)
-                           ];
-    NSArray *locationArray = @[
-                               @(0),
-                               @(0.4),
-                               @(0.6),
-                               @(0.8),
-                               @(1)
-                               ];
-
-    
+    NSArray *timeArray = @[@(0),@(0.8),@(1.6),@(2.4),@(3.2),@(4.0)];
+    NSArray *locationArray = @[@(0),@(0.2),@(0.4),@(0.6),@(0.8),@(1)];
     
     sender.selected = !sender.selected;
     if (sender.selected) {
         [self.bilayerLabel startAnimation];
+#if 1
+        //非匀速动画，时间和位置需要开发者自己定义
         [self.lyricsLabel startLyricsAnimationWithTimeArray:timeArray andLocationArray:locationArray];
+#else
+        //匀速动画，只需给出持续时间和歌词的字数
+        [self.lyricsLabel startLyricsAnimationWithDuration:4 andWordsCount:11];
+#endif
+        
+        
     } else {
         [self.bilayerLabel stopAnimation];
         [self.lyricsLabel stopAnimation];
